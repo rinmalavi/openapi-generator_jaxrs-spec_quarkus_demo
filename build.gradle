@@ -1,6 +1,7 @@
 plugins {
     id 'java'
     id 'io.quarkus'
+    id "org.openapi.generator" version "7.8.0"
 }
 
 repositories {
@@ -37,3 +38,30 @@ compileJava {
 compileTestJava {
     options.encoding = 'UTF-8'
 }
+
+openApiGenerate {
+    generatorName = "jaxrs-spec"
+    library ="quarkus"
+    inputSpec = "$rootDir/api.yml"
+    apiPackage = "sandbox.api"
+    outputDir = "$buildDir/generated"
+    invokerPackage = "sandbox.invoker"
+    modelPackage = "sandbox.model"
+    configOptions = [
+            "dateLibrary": "java8",
+            "interfaceOnly": "true",
+            "useJakartaEe": "true",
+            "useBeanValidation": "false",
+            "returnResponse": "false"
+    ]
+}
+
+sourceSets {
+    main {
+        java {
+            srcDir "${buildDir}/generated/src/gen/java"
+        }
+    }
+}
+
+compileJava.dependsOn tasks.openApiGenerate

@@ -1,0 +1,44 @@
+openapi: 3.0.3
+
+info:
+  title: demo
+  version: 0.0.0
+  description: >
+    demo
+paths:
+  /demo:
+    get:
+      operationId: getDemo
+      summary: openApi Demo
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DemoGet"
+
+    post:
+      operationId: addDemo
+      summary: demo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DemoPost"
+      responses:
+        "204":
+          description: OK
+
+components:  
+  schemas:
+    DemoGet:
+      properties:
+        demo:
+          type: string
+    DemoPost:
+      properties:
+        demo:
+          type: string
